@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block title %}Sign in | LibraDesk{% endblock %}
+{% block content %}
+<div class="login-wrap"><div class="login-card">
+<div class="login-logo">📚</div><p class="eyebrow">LIBRARY MANAGEMENT PORTAL</p>
+<h1>Welcome back</h1><p class="muted">Sign in to manage your library workspace.</p>
+<form method="post"><label>Username</label><input name="username" required placeholder="Enter username">
+<label>Password</label><input type="password" name="password" required placeholder="Enter password">
+<button class="btn primary full">Sign in</button></form>
+<p class="hint">Demo username: <b>admin</b> · Set your own password hash before use.</p>
+</div></div>
+{% endblock %}

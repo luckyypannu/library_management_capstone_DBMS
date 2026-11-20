@@ -1,0 +1,5 @@
+{% extends "base.html" %}{% block page_name %}Fines{% endblock %}{% block content %}
+<div class="page-head"><div><p class="eyebrow">PENALTIES</p><h1>Fines</h1><p class="muted">Late fee is calculated at ₹5 per overdue day.</p></div></div>
+<section class="panel"><div class="table-wrap"><table><thead><tr><th>Member</th><th>Book</th><th>Amount</th><th>Paid</th><th>Status</th><th>Action</th></tr></thead><tbody>
+{% for f in fines %}<tr><td>{{ f.full_name }}</td><td>{{ f.title }}</td><td>₹{{ f.amount }}</td><td>₹{{ f.paid_amount }}</td><td><span class="pill {{ 'green' if f.status=='PAID' else 'amber' }}">{{ f.status }}</span></td><td>{% if f.status!='PAID' and f.status!='WAIVED' %}<form method="post"><input type="hidden" name="fine_id" value="{{ f.fine_id }}"><button class="btn small">Mark paid</button></form>{% else %}—{% endif %}</td></tr>{% else %}<tr><td colspan="6">No fines recorded.</td></tr>{% endfor %}
+</tbody></table></div></section>{% endblock %}

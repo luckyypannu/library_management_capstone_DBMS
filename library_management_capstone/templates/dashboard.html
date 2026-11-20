@@ -1,0 +1,18 @@
+{% extends "base.html" %}{% block page_name %}Dashboard{% endblock %}
+{% block content %}
+<div class="page-head"><div><p class="eyebrow">LIBRARY OVERVIEW</p><h1>Dashboard</h1><p class="muted">A live snapshot of your library operations.</p></div><a class="btn primary" href="{{ url_for('books') }}">＋ Add a book</a></div>
+<div class="stats">
+{% for label,key,icon in [('Book titles','books','▤'),('Total copies','copies','▣'),('Available copies','available','✓'),('Active members','members','♙'),('Currently issued','issued','⇄'),('Overdue loans','overdue','!')] %}
+<div class="stat-card"><div class="stat-icon">{{ icon }}</div><div class="stat-label">{{ label }}</div><div class="stat-value">{{ stats[key] }}</div></div>
+{% endfor %}
+</div>
+<div class="two-col">
+<section class="panel"><div class="panel-head"><h2>Recent circulation</h2><a href="{{ url_for('loans') }}">View all →</a></div>
+<div class="table-wrap"><table><thead><tr><th>Member</th><th>Book</th><th>Due date</th><th>Status</th></tr></thead><tbody>
+{% for r in recent %}<tr><td>{{ r.full_name }}</td><td>{{ r.title }}</td><td>{{ r.due_date }}</td><td><span class="pill {{ 'green' if r.status=='RETURNED' else 'amber' }}">{{ r.status }}</span></td></tr>{% else %}<tr><td colspan="4">No circulation records yet.</td></tr>{% endfor %}
+</tbody></table></div></section>
+<section class="panel"><div class="panel-head"><h2>Popular books</h2><a href="{{ url_for('reports') }}">Analytics →</a></div>
+{% for p in popular %}<div class="popular-row"><span>{{ p.title }}</span><b>{{ p.borrow_count }} loans</b></div>{% else %}<p class="muted">No borrowing data yet.</p>{% endfor %}
+<div class="fine-summary"><span>Outstanding fines</span><strong>₹{{ '%.2f'|format(stats.fines) }}</strong></div>
+</section></div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}{% block page_name %}Books{% endblock %}{% block content %}
+<div class="page-head"><div><p class="eyebrow">COLLECTION</p><h1>Books</h1><p class="muted">Manage titles, categories and physical copies.</p></div></div>
+<div class="two-col align-start"><section class="panel"><h2>Add a book</h2><form method="post" class="form-grid">
+<label class="span2">Book title<input name="title" required></label><label>ISBN<input name="isbn" required></label>
+<label>Published year<input type="number" name="published_year" min="1400" max="2100"></label>
+<label>Author<select name="author_id"><option value="">Select author</option>{% for a in authors %}<option value="{{ a.author_id }}">{{ a.author_name }}</option>{% endfor %}</select></label>
+<label>Publisher<select name="publisher_id"><option value="">Select publisher</option>{% for p in publishers %}<option value="{{ p.publisher_id }}">{{ p.publisher_name }}</option>{% endfor %}</select></label>
+<label>Category<select name="category_id"><option value="">Select category</option>{% for c in categories %}<option value="{{ c.category_id }}">{{ c.category_name }}</option>{% endfor %}</select></label>
+<label>Number of copies<input type="number" name="copies" min="1" value="1"></label>
+<div class="span2"><button class="btn primary">Save book</button></div></form></section>
+<section class="panel"><div class="panel-head"><h2>Book catalogue</h2><form class="search" method="get"><input name="q" value="{{ q }}" placeholder="Search title or ISBN"><button class="btn">Search</button></form></div>
+<div class="table-wrap"><table><thead><tr><th>Title / ISBN</th><th>Category</th><th>Copies</th><th>Available</th><th></th></tr></thead><tbody>
+{% for b in books %}<tr><td><b>{{ b.title }}</b><small>{{ b.isbn }}</small></td><td>{{ b.category_name }}</td><td>{{ b.total_copies }}</td><td><span class="pill green">{{ b.available_copies or 0 }}</span></td><td><form method="post" action="{{ url_for('delete_book',book_id=b.book_id) }}" onsubmit="return confirm('Delete this book?')"><button class="link danger-text">Delete</button></form></td></tr>{% else %}<tr><td colspan="5">No books found.</td></tr>{% endfor %}
+</tbody></table></div></section></div>{% endblock %}
